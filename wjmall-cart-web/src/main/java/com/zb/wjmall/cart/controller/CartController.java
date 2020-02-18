@@ -122,10 +122,10 @@ public class CartController {
             //用户未登录,添加到cookie
             String cartListCookieStr = CookieUtil.getCookieValue(request, "cartListCookie", true);
             if (StringUtils.isBlank(cartListCookieStr)) {
-                //存在购物车列表cookie
+                //不存在购物车列表cookie
                 cartInfos.add(cartInfo);
             } else {
-                //不存在购物车列表cookie
+                //存在购物车列表cookie
                 cartInfos = JSON.parseArray(cartListCookieStr, CartInfo.class);
                 //判断是否为重复的sku
                 boolean isNewCart = isNewCart(cartInfos, cartInfo);
@@ -171,8 +171,10 @@ public class CartController {
         boolean isNewCart = true;
         String skuId = cartInfo.getSkuId();
         for (CartInfo info : cartInfos) {
-            skuId.equals(info.getSkuId());
-            isNewCart = false;
+            if(skuId.equals(info.getSkuId())){
+                isNewCart = false;
+
+            }
         }
         return isNewCart;
     }

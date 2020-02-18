@@ -46,6 +46,7 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.searchbox/jest -->
+        <!--java连接es的客户端-->
         <dependency>
             <groupId>io.searchbox</groupId>
             <artifactId>jest</artifactId>

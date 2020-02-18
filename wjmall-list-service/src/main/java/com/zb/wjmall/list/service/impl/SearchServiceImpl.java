@@ -1,11 +1,9 @@
 package com.zb.wjmall.list.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.zb.wjmall.bean.SkuInfo;
 import com.zb.wjmall.bean.SkuLsInfo;
 import com.zb.wjmall.bean.SkuLsParam;
 import com.zb.wjmall.service.SearchService;
-import com.zb.wjmall.service.SkuService;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -32,7 +30,7 @@ public class SearchServiceImpl implements SearchService {
     public List<SkuLsInfo> search(SkuLsParam skuLsParam) {
 //        System.out.println(getMyDsl(skuLsParam));
         List<SkuLsInfo> skuLsInfos = new ArrayList<>();
-        Search search = new Search.Builder(getMyDsl(skuLsParam)).addIndex("wjmall").addType("skuLsInfo").build();
+        Search search = new Search.Builder(getMyDsl(skuLsParam)).addIndex("wjmall").addType("skuInfo").build();
         try {
             SearchResult execute = jestClient.execute(search);
             List<SearchResult.Hit<SkuLsInfo, Void>> hits = execute.getHits(SkuLsInfo.class);
@@ -90,6 +88,7 @@ public class SearchServiceImpl implements SearchService {
         dsl.query(boolQueryBuilder);
         dsl.size(50);
         dsl.from(0);
+
         HighlightBuilder highlightBuilder = new HighlightBuilder();
         highlightBuilder.field("skuName");
         highlightBuilder.preTags("<span style='color:red;font-weight:bolder;'>");
@@ -98,10 +97,5 @@ public class SearchServiceImpl implements SearchService {
 
         return dsl.toString();
     }
-
-
-
-
-
 
 }

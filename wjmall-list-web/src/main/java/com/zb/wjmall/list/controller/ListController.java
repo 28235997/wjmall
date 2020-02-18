@@ -10,11 +10,13 @@ import com.zb.wjmall.bean.SkuLsParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
 @Controller
+@CrossOrigin
 public class ListController {
 
     @Reference
@@ -98,6 +100,7 @@ public class ListController {
         return urlParam;
     }
 
+    //抽取检索结果所包含的平台属性
     private List<BaseAttrInfo> getAttrValueIds(List<SkuLsInfo> skuLsInfos) {
         Set<String> valueIds = new HashSet<>();
         for (SkuLsInfo skuLsInfo :

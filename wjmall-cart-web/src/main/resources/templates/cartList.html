@@ -152,16 +152,16 @@
 <script type="text/javascript">
 
     function toTrade() {
-        window.location.href = "http://order.wjmall.com:8086/toTrade";
+        window.location.href = "http://localhost:8086/toTrade";
     }
 
     function toItem(skuId) {
-        window.location.href = "http://item.wjmall.com:8082/" + skuId + ".html";
+        window.location.href = "http://localhost:8082/" + skuId + ".html";
     }
 
     function login() {
-        var s = encodeURIComponent("http://cart.wjmall.com:8084/cartList");
-        window.location.href = "http://passport.wjmall.com/index?originUrl=" + s;
+        var s = encodeURIComponent("http://localhost:8084/cartList");
+        window.location.href = "http://localhost:8085/index?originUrl=" + s;
     }
 
     function checkSku(chkbox) {

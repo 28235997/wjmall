@@ -35,7 +35,7 @@ public class WjmallListServiceApplicationTests {
     public void contextLoads() {
 
         //查询mysql中sku信息
-        List<SkuInfo> skuInfoList = skuService.getSkuListByCatalog3Id("1");
+        List<SkuInfo> skuInfoList = skuService.getSkuListByCatalog3Id("61");
         //转化为es中的sku信息
         List<SkuLsInfo> skuLsInfos = new ArrayList<>();
         for (SkuInfo skuInfo :
@@ -52,7 +52,11 @@ public class WjmallListServiceApplicationTests {
         //导入到es中
         for (SkuLsInfo skuLsInfo :
                 skuLsInfos) {
-            Index index = new Index.Builder(skuLsInfo).index("wjmall").type("skuLsInfo").id(skuLsInfo.getId()).build();
+            //index 库名 type：表名
+            Index index = new Index.Builder(skuLsInfo).index("wjmall").type("skuInfo").id(skuLsInfo.getId()).build();
+
+
+//            Index build = new Index.Builder(skuLsInfo).index("wjmall").type("skuInfo").id(skuLsInfo.getId()).build();
             System.out.println(index);
             try {
                 jestClient.execute(index);
