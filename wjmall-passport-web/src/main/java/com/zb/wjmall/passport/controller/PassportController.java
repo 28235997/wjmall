@@ -1,5 +1,6 @@
 package com.zb.wjmall.passport.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.zb.wjmall.bean.CartInfo;
 import com.zb.wjmall.bean.UserInfo;
@@ -8,7 +9,6 @@ import com.zb.wjmall.service.UserService;
 import com.zb.wjmall.util.CookieUtil;
 import com.zb.wjmall.util.JwtUtil;
 import com.zb.wjmall.util.PassportUtil;
-import jdk.nashorn.internal.ir.annotations.Reference;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

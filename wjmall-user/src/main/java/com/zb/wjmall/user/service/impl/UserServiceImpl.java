@@ -8,6 +8,7 @@ import com.zb.wjmall.service.UserService;
 import com.zb.wjmall.user.mapper.UserAddressMapper;
 import com.zb.wjmall.user.mapper.UserInfoMapper;
 import com.zb.wjmall.util.RedisUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 
@@ -31,12 +32,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo login(UserInfo userInfo) {
-        UserInfo user = userInfoMapper.selectOne(userInfo);
-        if (user != null) {
-            //同步缓存
-            Jedis jedis = redisUtil.getJedis();
-            jedis.set("user:" + user.getId() + ":info", JSON.toJSONString(user));
-            jedis.close();
+        UserInfo user = null;
+        Jedis jedis = redisUtil.getJedis();
+        String s = jedis.get("user:" + userInfo.getLoginName() + ":info");
+
+        if(StringUtils.isBlank(s)){
+
+            user = userInfoMapper.selectOne(userInfo);
+            if (user != null) {
+                //同步缓存
+                jedis.setex("user:" + user.getLoginName() + ":info",60*60*24, JSON.toJSONString(user));
+                jedis.close();
+            }
+        }else {
+            user = JSON.parseObject(s,UserInfo.class);
         }
         return user;
     }

@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/jquery-3.1.1.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/css/One_mainFoot.css">
-    <link rel="stylesheet" href="/css/font-awesome-4.7.0/css/font-awesome.css"/>
+
 </head>
 <body>
 <header>
-    <a name="mao1">
+    <span name="mao1">
         <div class="header">
 
             <ul class="header-left">
@@ -23,7 +23,7 @@
 
             </ul>
             <ul class="header-right">
-                <li><a href="../登录页面\index.html" style="color: red;">你好，请登录</a></li>
+                <li><span th:text="${nickName}" style="color: red;">你好，请登录</span></li>
                 <li><a href="../注册页面\index.html">免费注册</a></li>
                 <li class="spacer"></li>
                 <li><a href="">我的订单</a></li>
@@ -42,7 +42,7 @@
     <div class="one_sousuo">
         <div class="one_search_top">
             <div class="one_top_left">
-                <a href="../" class="one_left_logo"><img src="img/logo1.jpg"></a>
+                <a href="../" class="one_left_logo"><img src=""></a>
                 <a href="#" class="one_left_link">购物车</a>
             </div>
             <div class="one_top_right">
@@ -152,16 +152,16 @@
 <script type="text/javascript">
 
     function toTrade() {
-        window.location.href = "http://order.wjmall.com:8086/toTrade";
+        window.location.href = "http://localhost:8086/toTrade";
     }
 
     function toItem(skuId) {
-        window.location.href = "http://item.wjmall.com:8082/" + skuId + ".html";
+        window.location.href = "http://localhost:8082/" + skuId + ".html";
     }
 
     function login() {
-        var s = encodeURIComponent("http://cart.wjmall.com:8084/cartList");
-        window.location.href = "http://passport.wjmall.com/index?originUrl=" + s;
+       // var s = encodeURIComponent("http://localhost:8084/cartList");
+        window.location.href = "http://localhost:8085/index?returnURL=http://localhost:8084/cartList";
     }
 
     function checkSku(chkbox) {

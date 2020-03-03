@@ -8,4 +8,6 @@ public interface OrderService {
     boolean checkTradeCode(String tradeCode, String userId);
 
     void saveOrder(OrderInfo orderInfo);
+
+    OrderInfo getOrderByUserId(String userId);
 }

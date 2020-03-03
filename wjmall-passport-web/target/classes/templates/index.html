@@ -10,7 +10,7 @@
 <!--顶部logo-->
 
 <header>
-    <a href="http://www.baidu.com"><img src="/img/logo1.jpg"/></a>
+    <a href="http://www.baidu.com"><img src=""/></a>
     <p>欢迎登录</p>
 </header>
 
@@ -83,7 +83,7 @@
     function submitLogin() {
         var loginName = $("#loginName").val();
         var passwd = $("#passwd").val();
-        $.post("/login",{loginName:loginName, passwd: passwd},function (token) {
+        $.post("login",{loginName:loginName, passwd: passwd},function (token) {
             if (token == "username or password err") {
                 $("#error").text("用户名或密码错误");
             } else {

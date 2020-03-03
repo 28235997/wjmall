@@ -20,7 +20,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-
+            //通过反射获取方法信息
             HandlerMethod method = (HandlerMethod) handler;
             LoginRequire methodAnnotation = method.getMethodAnnotation(LoginRequire.class);
 
@@ -52,7 +52,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
             //方法需要验证身份，且请求中没有token
             if (methodAnnotation.ifNeedSuccess() && StringUtils.isBlank(token)) {
                 StringBuffer requestURL = request.getRequestURL();
-                response.sendRedirect("http://passport.wjmall.com:8085/index?returnURL=" + requestURL);
+                response.sendRedirect("http://localhost:8085/index?returnURL=" + requestURL);
                 return false;
             }
 
@@ -60,15 +60,15 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
             String success = "";
             if (StringUtils.isNotBlank(token)) {
                 //远程访问passport，验证token
-                success = HttpClientUtil.doGet("http://passport.wjmall.com:8085/verify?token=" + token + "&salt=" + PassportUtil.getRequestAddr(request));
+                success = HttpClientUtil.doGet("http://localhost:8085/verify?token=" + token + "&salt=" + PassportUtil.getRequestAddr(request));
             }
             if (!success.equals("success") && methodAnnotation.ifNeedSuccess()) {
-                response.sendRedirect("http://passport.wjmall.com:8085/index");
+                response.sendRedirect("http://localhost:8085/index");
                 return false;
             }
             if (success.equals("success")) {
                 //cookie验证通过，重新刷新cookie的过期时间
-                CookieUtil.setCookie(request, response, "oldCookie", token, 60 * 60 * 2, true);
+                CookieUtil.setCookie(request, response, "oldToken", token, 60 * 60 * 2, true);
 
                 //将用户信息放入应用请求中
                 Map userMap = JwtUtil.decode("superlee1010", token, PassportUtil.getRequestAddr(request));

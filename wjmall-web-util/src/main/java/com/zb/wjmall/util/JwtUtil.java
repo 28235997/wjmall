@@ -50,7 +50,7 @@ public class JwtUtil {
 
         map = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 
-        System.out.println("map.toString() = " + map.toString());
+        //System.out.println("map.toString() = " + map.toString());
 
         return map;
 

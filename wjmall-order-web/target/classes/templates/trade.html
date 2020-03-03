@@ -41,7 +41,7 @@
 
 		<!--logo图片-->
 		<div class="top-1">
-			<img src="img/logo1.jpg" class="img1" /><span>结算页</span>
+			<img src="" class="img1" /><span>结算页</span>
 			<!--右侧绿色-->
 			<img src="img/08.png" class="img2" />
 		</div>
@@ -61,7 +61,7 @@
 			<div class="top-3">
 				<ul >
 				 <li class=".address default selected" th:each="userAddress:${userAddressList}"  >
-					 <input   name="deliveryAddress" type="radio"  value=""  th:checked="${userAddress.isDefault}=='1'">
+					 <input   name="deliveryAddress" type="radio"  value=""  th:checked="${userAddress.isDefault}=='1'" onclick="changeAddress()">
 					<span  th:text="${userAddress.consignee}" >收件人AAAA </span><span th:text="${userAddress.userAddress}"   >具体地址111 </span>
 				 </li>
 				</ul>
@@ -129,7 +129,7 @@
 				<input th:name="'orderDetailList['+${stat.index}+'].orderPrice'" type="hidden"    th:value="${orderDetail.orderPrice}" />
 				<input th:name="'orderDetailList['+${stat.index}+'].skuName'" type="hidden"    th:value="${orderDetail.skuName}" />
 			</span>
-			<input name="tradeCode" type="hidden"  th:value="${tradeCode}"  />
+			<input name="traderCode" type="hidden"  th:value="${traderCode}"  />
 		</form>
 		<script>
             $(function() {

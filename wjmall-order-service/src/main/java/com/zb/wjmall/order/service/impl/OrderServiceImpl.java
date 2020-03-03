@@ -65,4 +65,13 @@ public class OrderServiceImpl implements OrderService {
         }
 
     }
+
+    @Override
+    public OrderInfo getOrderByUserId(String userId) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setUserId(userId);
+        orderInfo.setOrderStatus("0");
+        OrderInfo orderInfo1 = orderInfoMapper.selectOne(orderInfo);
+        return orderInfo1;
+    }
 }

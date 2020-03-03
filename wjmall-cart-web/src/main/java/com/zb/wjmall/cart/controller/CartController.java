@@ -28,7 +28,7 @@ public class CartController {
     @Reference
     CartService cartService;
 
-
+    //自定义注解
     @LoginRequire(ifNeedSuccess = false)
     @RequestMapping("checkCart")
     public String checkCart(HttpServletRequest request, HttpServletResponse response, CartInfo cartInfo, ModelMap map) {
@@ -52,6 +52,7 @@ public class CartController {
                 }
             }
             CookieUtil.setCookie(request, response, "cartListCookie", JSON.toJSONString(cartInfos), 60 * 60 * 24 * 7, true);
+
         }
 
         //更新数据后将最新数据查询出来
@@ -64,11 +65,27 @@ public class CartController {
         } else {
             //取缓存中的数据
             cartInfos = cartService.getCartCache(userId);
+
         }
 
         map.put("cartList", cartInfos);
-
+        //被勾选的商品的总额
+        BigDecimal totalAmount = getTotalAmount(cartInfos);
+        map.put("totalAmount", totalAmount);
         return "cartListInner";
+    }
+
+    private BigDecimal getTotalAmount(List<CartInfo> cartInfos) {
+
+        BigDecimal bigDecimal = new BigDecimal("0");
+        for (CartInfo cartInfo : cartInfos) {
+            if("1".equals(cartInfo.getIsChecked())){
+
+                BigDecimal cartPrice = cartInfo.getCartPrice();
+                bigDecimal = bigDecimal.add(cartPrice);
+            }
+        }
+        return bigDecimal;
     }
 
 
@@ -89,6 +106,8 @@ public class CartController {
             cartInfos = cartService.getCartCache(userId);
         }
 
+        BigDecimal totalAmount = getTotalAmount(cartInfos);
+        map.put("totalAmount", totalAmount);
 
         map.put("cartList", cartInfos);
         map.put("totalPrice", getTotalPrice(cartInfos));

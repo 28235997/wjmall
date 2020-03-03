@@ -29,7 +29,7 @@
                     <li>
                         <p>
                             <span>-</span>
-                            <span th:text="${cartInfo.skuNum}">5</span>
+                            <span th:text="${cartInfo.skuNum}">1</span>
                             <span>+</span>
                         </p>
                     </li>
@@ -40,44 +40,7 @@
                 </ol>
             </div>
         </li>
-        <!--<li>
-            <div>
-            </div>
-            <div>
-                <ol>
-                    <li><input type="checkbox"  class="check"></li>
-                    <li>
-                        <dt><img src="img\shop1.jpg" alt=""></dt>
-                        <dd>
-                            <p>
 
-                                <span>TCL 55A950C 55英寸32核</span>
-                                <span>尺码: 55时 超薄曲面 人工智能</span>
-                            </p>
-                            <p>人工智能 HDR曲面超薄4K电视金属机</p>
-
-                        </dd>
-                    </li>
-                    <li>
-                        <p class="dj">￥4599.00</p>
-
-                    </li>
-                    <li>
-                        <p>
-                            <span>-</span>
-                            <span>5</span>
-                            <span>+</span>
-                        </p>
-
-                    </li>
-                    <li style="font-weight:bold"><p class="zj">￥22995.00</p></li>
-                    <li>
-                        <p>删除</p>
-
-                    </li>
-                </ol>
-            </div>
-        </li>-->
 
     </ul>
 </div>
@@ -100,7 +63,7 @@
     </div>
     <div>
         <ol>
-            <li>总价:<span style="color:#e64346;font-weight:bold;font-size:16px;" class="fnt" th:text="${totalPrice}">￥0.00</span></li>
+            <li>总价:<span style="color:#e64346;font-weight:bold;font-size:16px;" class="fnt" th:text="${totalAmount}">￥0.00</span></li>
 
         </ol>
     </div>

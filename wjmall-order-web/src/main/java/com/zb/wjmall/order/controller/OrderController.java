@@ -2,8 +2,10 @@ package com.zb.wjmall.order.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zb.wjmall.annotation.LoginRequire;
-import com.zb.wjmall.bean.*;
+import com.zb.wjmall.bean.CartInfo;
 import com.zb.wjmall.bean.OrderDetail;
+import com.zb.wjmall.bean.OrderInfo;
+import com.zb.wjmall.bean.UserAddress;
 import com.zb.wjmall.bean.enums.PaymentWay;
 import com.zb.wjmall.service.CartService;
 import com.zb.wjmall.service.OrderService;
@@ -34,12 +36,24 @@ public class OrderController {
     @Reference
     SkuService skuService;
 
+
+    //支付页
+    @LoginRequire(ifNeedSuccess = true)
+    @RequestMapping("index")
+    public String payIndex(HttpServletRequest request,ModelMap map){
+        String userId = (String) request.getAttribute("userId");
+        OrderInfo orderInfo = orderService.getOrderByUserId(userId);
+        map.put("orderId",orderInfo.getOutTradeNo());
+        map.put("totalAmount",orderInfo.getTotalAmount());
+        return "index";
+    }
+
     @LoginRequire(ifNeedSuccess = true)
     @RequestMapping("submitOrder")
-    public String submitOrder(HttpServletRequest request, HttpServletResponse response, ModelMap map, String tradeCode) {
+    public String submitOrder(HttpServletRequest request, OrderInfo orderInfo2, ModelMap map, String traderCode) {
         String userId = (String) request.getAttribute("userId");
         //比较交易码
-        boolean bTrade = orderService.checkTradeCode(tradeCode, userId);
+        boolean bTrade = orderService.checkTradeCode(traderCode, userId);
         //订单对象
         OrderInfo orderInfo = new OrderInfo();
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -79,20 +93,19 @@ public class OrderController {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, 1);
             orderInfo.setExpireTime(calendar.getTime());
-            orderInfo.setOrderStatus("未支付");
-            String consignee = "测试收件人";
-            orderInfo.setConsignee(consignee);
+            orderInfo.setOrderStatus("0");
+
+            orderInfo.setConsignee(orderInfo2.getConsignee());
             //外部订单号
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             String currentTime = sdf.format(new Date());
-            String outTradeNo = "Lee" + currentTime + System.currentTimeMillis();
+            String outTradeNo = "Zb" + currentTime + System.currentTimeMillis();
             orderInfo.setOutTradeNo(outTradeNo);
             orderInfo.setPaymentWay(PaymentWay.ONLINE);
             orderInfo.setUserId(userId);
             orderInfo.setTotalAmount(getTotalPrice(cartInfos));
             orderInfo.setOrderComment("订单");
-            String address = "测试收件地址";
-            orderInfo.setDeliveryAddress(address);
+            orderInfo.setDeliveryAddress(orderInfo2.getDeliveryAddress());
             orderInfo.setCreateTime(new Date());
             String tel = "123123";
             orderInfo.setConsigneeTel(tel);
@@ -109,7 +122,7 @@ public class OrderController {
             return "tradeFail";
         }
 
-        return "payTest";
+        return "redirect:/index";
     }
 
     @LoginRequire(ifNeedSuccess = true)
@@ -127,7 +140,7 @@ public class OrderController {
             orderDetail.setOrderPrice(cartInfo.getCartPrice());
             orderDetail.setSkuId(cartInfo.getSkuId());
             orderDetail.setSkuName(cartInfo.getSkuName());
-
+            orderDetail.setSkuNum(cartInfo.getSkuNum());
             orderDetails.add(orderDetail);
         }
 
@@ -140,7 +153,7 @@ public class OrderController {
         map.put("userAddressList", userAddresses);
         map.put("orderDetailList", orderDetails);
         map.put("totalAmount", getTotalPrice(cartInfos));
-
+        map.put("traderCode",traderCode);
         return "trade";
     }
 
