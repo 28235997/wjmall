@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class SkuLsParam implements Serializable{
 
     String  catalog3Id;
-
+    //属性值列表
     String[] valueId;
 
     String keyword;

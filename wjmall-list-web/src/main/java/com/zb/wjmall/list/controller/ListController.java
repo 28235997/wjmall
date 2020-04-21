@@ -45,6 +45,7 @@ public class ListController {
                 String valueName = "";
                 //排除已选中的属性
                 while (iterator.hasNext()) {
+                    //平台属性
                     BaseAttrInfo baseAttrInfo = iterator.next();
                     List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
                     for (BaseAttrValue baseAttrValue : attrValueList) {
